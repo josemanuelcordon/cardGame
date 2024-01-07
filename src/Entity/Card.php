@@ -47,4 +47,23 @@ class Card
 
         return $this;
     }
+
+    public function equals(Card $card)
+    {
+        if (!$card instanceof self) {
+            return false;
+        }
+
+        return $this->getNumber() === $card->getNumber() && $this->getSuit() === $card->getSuit();
+    }
+
+    public function isBetter(Card $card)
+    {
+        $cardNumbersOrdered = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1];
+
+        $thisCardWeight = array_search($this->number, $cardNumbersOrdered);
+        $cardWeight = array_search($card->getNumber(), $cardNumbersOrdered);
+
+        return $thisCardWeight >= $cardWeight;
+    }
 }

@@ -32,12 +32,17 @@ class Game
     private ?Card $machinePick = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Card $playerPick = null;
 
     #[ORM\Column(length: 255)]
     private ?string $difficulty = null;
 
+    #[ORM\Column("finished")]
+    private ?bool $isFinished = false;
+
+    #[ORM\Column("won")]
+    private ?bool $won = false;
     public function __construct()
     {
         $this->machineCards = new ArrayCollection();
@@ -143,5 +148,26 @@ class Game
         $this->difficulty = $difficulty;
 
         return $this;
+    }
+
+    public function isFinished(): ?bool
+    {
+        return $this->isFinished;
+    }
+
+    public function endGame(): static
+    {
+        $this->isFinished = true;
+
+        return $this;
+    }
+
+    public function isWon()
+    {
+        return $this->won;
+    }
+    public function decideWinner(bool $won)
+    {
+        $this->won = $won;
     }
 }

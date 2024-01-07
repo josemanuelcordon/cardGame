@@ -2,17 +2,37 @@
 
 namespace App\Controller;
 
+use App\Repository\GameRepository;
+use App\Repository\CardRepository;
+use App\Entity\Game;
+use App\Entity\User;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 class MainController extends AbstractController
 {
-    #[Route('/main', name: 'app_main')]
-    public function index(): Response
+    #[Route('/', name: 'app_main')]
+    public function index(GameRepository $gameRepository): Response
     {
+        $user = $this->getUser();
+        if ($user) {
+            $actual_game = $gameRepository->findActualGameOfPlayer($user->getId());
+
+            $gamesWon = $gameRepository->findGamesWon($user->getId());
+            $gamesLost = $gameRepository->findGamesLost($user->getId());
+
+            $user->setWonGame($gamesWon);
+            $user->setLostGame($gamesLost);
+        } else {
+            $actual_game = NULL;
+        }
+
         return $this->render('main/index.html.twig', [
-            'controller_name' => 'MainController',
+            'actual_game' => $actual_game,
         ]);
     }
 }

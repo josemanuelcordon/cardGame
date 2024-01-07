@@ -1,20 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
+{% block title %}Card Game{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'E:/2ºDAW/EW/cardGame/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'E:/2ºDAW/EW/cardGame/templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
-    </ul>
-</div>
+    {% if app.user %}
+        <p>Bienvenido de nuevo {{ app.user.username }}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href={{ path('admin_view') }}>Ver Estadísticas</a>
+        {% endif %}
+        <p>Partidas ganadas: {{ app.user.gamesWon}}</p>
+        <p>Partidas perdidas: {{ app.user.gamesLost}}</p> 
+        {% if actual_game %}
+        {% if actual_game.isFinished() %}
+        <div>
+            <p>Iniciar partida:<p>
+            <a href="/game/create/false">Start Easy Game</a>
+            <a href="/game/create/true">Start Difficult Game</a>
+        </div>
+            {% if actual_game.isWon() %}
+                <h1>GANASTE</h1>
+            {% else %}
+                <h1>PERDISTE</h1>
+            {% endif %}
+        {% else %}    
+        <div>
+            <article>
+            <h2>Tus Cartas - Selecciona Una</h2>
+            {% for card in actual_game.getPlayerCards() %}
+                <a href="/card/pick/{{card.getId()}}/game/{{actual_game.getId()}}">{{card.getNumber()}} -- {{card.getSuit()}}</a><br>
+            {% endfor %}
+            <h2>Cartas de la Maquina - Selecciona Una</h2>
+            {% for card in actual_game.getMachineCards() %}
+                <p>{{card.getNumber()}} -- {{card.getSuit()}}</p>
+            {% endfor %}
+        </div>
+        {% endif %}    
+        {% else %}
+        <div>
+            <p>Iniciar partida:<p>
+            <a href="/game/create/false">Start Easy Game</a>
+            <a href="/game/create/true">Start Difficult Game</a>
+        </div>
+        {% endif %}
+    {% else %}
+        <a href="/register">Registrarse</a>
+    {% endif %}
 {% endblock %}

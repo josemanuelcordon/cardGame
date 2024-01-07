@@ -21,28 +21,54 @@ class GameRepository extends ServiceEntityRepository
         parent::__construct($registry, Game::class);
     }
 
-//    /**
-//     * @return Game[] Returns an array of Game objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('g')
-//            ->andWhere('g.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('g.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Game[] Returns an array of Game objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('g')
+    //            ->andWhere('g.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('g.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Game
-//    {
-//        return $this->createQueryBuilder('g')
-//            ->andWhere('g.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findActualGameOfPlayer($userId): ?Game
+    {
+        return $this->createQueryBuilder('g')
+            ->andWhere("g.player = :userId")
+            ->andWhere("g.isFinished = 0")
+            //!Ejemplo de Como comprobar que esta vacío ->andWhere("SIZE(g.playerCards) = 0") 
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findGamesWon($userId): ?int
+    {
+        return $this->createQueryBuilder('g')
+            ->select('COUNT(g.id)')
+            ->andWhere("g.player = :userId")
+            ->andWhere("g.isFinished = 1")
+            ->andWhere("g.won = 1")
+            //!Ejemplo de Como comprobar que esta vacío ->andWhere("SIZE(g.playerCards) = 0") 
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findGamesLost($userId): ?int
+    {
+        return (int) $this->createQueryBuilder('g')
+            ->select('COUNT(g.id)')
+            ->andWhere("g.player = :userId")
+            ->andWhere("g.isFinished = 1")
+            ->andWhere("g.won = 0")
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }
