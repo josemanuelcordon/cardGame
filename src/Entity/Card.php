@@ -66,4 +66,8 @@ class Card
 
         return $thisCardWeight >= $cardWeight;
     }
+
+    public function sameCard(Card $card) {
+        return $this->number == $card->getNumber();
+    }
 }

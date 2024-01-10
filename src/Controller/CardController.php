@@ -90,13 +90,12 @@ class CardController extends AbstractController
     ): Response {
         $user = $this->getUser();
 
-
         $card = $cardRepository->find($id_card);
         $actual_game = $gameRepository->find($id_game);
 
-
         $actual_game->setPlayerPick($card);
         $actual_game->endGame();
+        
         $gameWon = $cardRepository->playerWonGame($actual_game);
         $actual_game->decideWinner($gameWon);
 

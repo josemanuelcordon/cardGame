@@ -42,7 +42,7 @@ class Game
     private ?bool $isFinished = false;
 
     #[ORM\Column("won")]
-    private ?bool $won = false;
+    private ?string $state = 'winned';
     public function __construct()
     {
         $this->machineCards = new ArrayCollection();
@@ -162,12 +162,12 @@ class Game
         return $this;
     }
 
-    public function isWon()
+    public function getState()
     {
-        return $this->won;
+        return $this->state;
     }
-    public function decideWinner(bool $won)
+    public function decideWinner(string $state): void
     {
-        $this->won = $won;
+        $this->state = $state;
     }
 }

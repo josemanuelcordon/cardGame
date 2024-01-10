@@ -78,11 +78,17 @@ class CardRepository extends ServiceEntityRepository
         return $betterCard;
     }
 
-    public function playerWonGame($game): bool
+    public function playerWonGame($game): string
     {
         $playerCard = $game->getPlayerPick();
         $machineCard = $game->getMachinePick();
 
-        return $playerCard->isBetter($machineCard);
+        if($playerCard->isBetter($machineCard)) {
+            if ($playerCard->sameCard($machineCard)) {
+                return 'draw';
+            } 
+            return 'win';
+        }
+        return 'lost';
     }
 }

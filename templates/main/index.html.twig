@@ -10,6 +10,7 @@
         {% endif %}
         <p>Partidas ganadas: {{ app.user.gamesWon}}</p>
         <p>Partidas perdidas: {{ app.user.gamesLost}}</p> 
+        <p>Partidas empatadas: {{ app.user.gamesDrawed}}</p> 
         {% if actual_game %}
         {% if actual_game.isFinished() %}
         <div>
@@ -17,11 +18,13 @@
             <a href="/game/create/false">Start Easy Game</a>
             <a href="/game/create/true">Start Difficult Game</a>
         </div>
-            {% if actual_game.isWon() %}
-                <h1>GANASTE</h1>
-            {% else %}
-                <h1>PERDISTE</h1>
-            {% endif %}
+            {% if actual_game.getState() == 'win' %}
+    <h1>GANASTE</h1>
+{% elseif actual_game.getState() == 'lost' %}
+    <h1>PERDISTE</h1>
+{% else %}
+    <h1>EMPATE</h1>
+{% endif %}
         {% else %}    
         <div>
             <article>

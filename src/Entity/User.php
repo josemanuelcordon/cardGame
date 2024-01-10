@@ -144,7 +144,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $gamesWon = 0;
         foreach ($this->games as $game) {
-            if ($game->isWon()) {
+            if ($game->getState() == 'win') {
                 $gamesWon++;
             }
         }
@@ -155,11 +155,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $gamesLost = 0;
         foreach ($this->games as $game) {
-            if (!$game->isWon() && $game->isFinished()) {
+            if ($game->getState() == 'lost') {
                 $gamesLost++;
             }
         }
         return $gamesLost;
+    }
+
+    public function getGamesDrawed() {
+        $gamesDrawed = 0;
+        foreach ($this->games as $game) {
+            if ($game->getState() == 'draw') {
+                $gamesDrawed++;
+            }
+        }
+        return $gamesDrawed;
     }
 
     public function getTotalGames(): int
