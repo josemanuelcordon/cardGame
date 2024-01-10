@@ -102,12 +102,6 @@ class CardController extends AbstractController
 
         $entityManager->flush();
 
-        $gamesWon = $gameRepository->findGamesWon($user->getId());
-        $gamesLost = $gameRepository->findGamesLost($user->getId());
-
-        $user->setWonGame($gamesWon);
-        $user->setLostGame($gamesLost);
-
         return $this->render('main/index.html.twig', [
             'actual_game' => $actual_game,
         ]);

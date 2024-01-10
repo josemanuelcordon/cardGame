@@ -61,12 +61,6 @@ class GameController extends AbstractController
         $entityManager->persist($actual_game);
         $entityManager->flush();
 
-        $gamesWon = $gameRepository->findGamesWon($user->getId());
-        $gamesLost = $gameRepository->findGamesLost($user->getId());
-
-        $user->setWonGame($gamesWon);
-        $user->setLostGame($gamesLost);
-
         return $this->render('main/index.html.twig', [
             'actual_game' => $actual_game,
         ]);

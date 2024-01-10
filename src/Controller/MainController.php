@@ -21,12 +21,6 @@ class MainController extends AbstractController
         $user = $this->getUser();
         if ($user) {
             $actual_game = $gameRepository->findActualGameOfPlayer($user->getId());
-
-            $gamesWon = $gameRepository->findGamesWon($user->getId());
-            $gamesLost = $gameRepository->findGamesLost($user->getId());
-
-            $user->setWonGame($gamesWon);
-            $user->setLostGame($gamesLost);
         } else {
             $actual_game = NULL;
         }

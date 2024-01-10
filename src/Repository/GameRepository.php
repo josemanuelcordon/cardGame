@@ -46,29 +46,4 @@ class GameRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
-    public function findGamesWon($userId): ?int
-    {
-        return $this->createQueryBuilder('g')
-            ->select('COUNT(g.id)')
-            ->andWhere("g.player = :userId")
-            ->andWhere("g.isFinished = 1")
-            ->andWhere("g.won = 1")
-            //!Ejemplo de Como comprobar que esta vacío ->andWhere("SIZE(g.playerCards) = 0") 
-            ->setParameter('userId', $userId)
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
-
-    public function findGamesLost($userId): ?int
-    {
-        return (int) $this->createQueryBuilder('g')
-            ->select('COUNT(g.id)')
-            ->andWhere("g.player = :userId")
-            ->andWhere("g.isFinished = 1")
-            ->andWhere("g.won = 0")
-            ->setParameter('userId', $userId)
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
 }

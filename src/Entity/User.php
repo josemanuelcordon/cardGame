@@ -34,8 +34,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'player', targetEntity: Game::class)]
     private Collection $games;
 
-    private int $gamesWon;
-    private int $gamesLost;
 
     public function __construct()
     {
@@ -144,26 +142,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getGamesWon(): int
     {
-        return $this->gamesWon;
-    }
-
-    public function setWonGame(int $nGamesWon)
-    {
-        $this->gamesWon = $nGamesWon;
+        $gamesWon = 0;
+        foreach ($this->games as $game) {
+            if ($game->isWon()) {
+                $gamesWon++;
+            }
+        }
+        return $gamesWon;
     }
 
     public function getGamesLost(): int
     {
-        return $this->gamesLost;
+        $gamesLost = 0;
+        foreach ($this->games as $game) {
+            if (!$game->isWon() && $game->isFinished()) {
+                $gamesLost++;
+            }
+        }
+        return $gamesLost;
     }
 
-    public function setLostGame(int $nGamesLost)
-    {
-        $this->gamesLost = $nGamesLost;
-    }
-
-    public function getTotalGames(): ?int
+    public function getTotalGames(): int
     {
         return $this->games->count();
     }
+
 }
