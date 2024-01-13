@@ -7,6 +7,7 @@ use App\Form\CardType;
 use App\Repository\CardRepository;
 use App\Repository\GameRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -105,4 +106,11 @@ class CardController extends AbstractController
             'actual_game' => $actual_game,
         ]);
     }
+
+    #[Route('/hola', name: 'app_card_hola', methods: ['GET', 'POST'])]
+    public function hola(Request $request, EntityManagerInterface $entityManager)
+    {
+        dd('hola');
+    }
 }
+

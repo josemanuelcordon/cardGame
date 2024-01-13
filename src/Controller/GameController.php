@@ -7,6 +7,7 @@ use App\Repository\GameRepository;
 use App\Repository\CardRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -64,5 +65,20 @@ class GameController extends AbstractController
         return $this->render('main/index.html.twig', [
             'actual_game' => $actual_game,
         ]);
+    }
+
+    #[Route('/getAllCards', name: 'hola')]
+    public function hola() :JsonResponse
+    {
+        $data = [
+            'id' => 1,
+            'suit' => 'Hearts',
+            'number' => 10
+        ];
+
+        // Crear una respuesta JSON
+        $response = new JsonResponse($data);
+
+        return $response;
     }
 }
