@@ -1,0 +1,11 @@
+user.email=josemanuelcordoncastillo01@gmail.com
+user.name=josemanuelcordon
+credential.helper=cache
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=https://github.com/josemanuelcordon/cardGame.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
