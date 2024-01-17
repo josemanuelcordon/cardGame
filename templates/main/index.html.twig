@@ -30,6 +30,7 @@
             <article>
             <h2>Tus Cartas - Selecciona Una</h2>
             {% for card in actual_game.getPlayerCards() %}
+            <img width="50px" src="/uploads/images/{{ card.img }}"/>
                 <a href="/card/pick/{{card.getId()}}/game/{{actual_game.getId()}}">{{card.getNumber()}} -- {{card.getSuit()}}</a><br>
             {% endfor %}
             <h2>Cartas de la Maquina - Selecciona Una</h2>

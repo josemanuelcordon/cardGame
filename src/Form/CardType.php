@@ -3,9 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Card;
+
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class CardType extends AbstractType
 {
@@ -14,6 +17,22 @@ class CardType extends AbstractType
         $builder
             ->add('number')
             ->add('suit')
+            ->add('img', FileType::class, [
+                'label' => 'Imagen de la carta',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpg',
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                    ])
+                ]
+            ])
         ;
     }
 

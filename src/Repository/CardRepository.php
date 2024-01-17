@@ -71,7 +71,7 @@ class CardRepository extends ServiceEntityRepository
 
         $betterCard = $cards[0];
         foreach ($cards as $card) {
-            if ($card->isBetter($betterCard)) {
+            if ($card->getNumber() >= $betterCard->getNumber()) {
                 $betterCard = $card;
             }
         }
